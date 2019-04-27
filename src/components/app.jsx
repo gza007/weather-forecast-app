@@ -1,17 +1,35 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import LocationDetails from './location-details';
 import ForecastSummaries from './forecast-summaries';
 import ForecastDetails from './forecast-details';
+import SearchForm from './search-form';
 import '../styles/app.scss';
+import axios from 'axios';
+
+const url = 'https://mcr-codes-weather.herokuapp.com/forecast?city=Manchester ';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedDate: this.props.forecasts[0].date,
+      selectedDate: 0,
+      forecasts: [],
+      location: {
+        city: '',
+        country: '',
+      },
     };
     this.handleForecastSelect = this.handleForecastSelect.bind(this);
+  }
+
+  componentDidMount() {
+    axios.get(`${url}`)
+      .then(response => {
+        this.setState({
+          forecasts: response.data.forecasts,
+          location: response.data.location,
+        });
+      });
   }
 
   handleForecastSelect(date) {
@@ -22,29 +40,24 @@ class App extends React.Component {
 
   render() {
     const selectedForecast =
-      this.props.forecasts.find(forecast => forecast.date === this.state.selectedDate);
+      this.state.forecasts.find(forecast => forecast.date === this.state.selectedDate);
     return (
       <React.Fragment>
         <LocationDetails
-          city={this.props.location.city}
-          country={this.props.location.country}
+          city={this.state.location.city}
+          country={this.state.location.country}
         />
+        <SearchForm />
         <ForecastSummaries
-          forecasts={this.props.forecasts}
+          forecasts={this.state.forecasts}
           onForecastSelect={this.handleForecastSelect}
         />
-        <ForecastDetails forecast={selectedForecast} />
+        {
+        selectedForecast && <ForecastDetails forecast={selectedForecast} />
+        }
       </React.Fragment>
     );
   }
 }
-
-App.propTypes = {
-  location: PropTypes.shape({
-    city: PropTypes.string,
-    country: PropTypes.string,
-  }).isRequired,
-  forecasts: PropTypes.array.isRequired,
-};
 
 export default App;
