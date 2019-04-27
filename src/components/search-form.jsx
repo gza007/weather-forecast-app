@@ -23,7 +23,12 @@ class SearchForm extends React.Component {
           onChange={this.handleInputChange}
           value={this.state.searchText}
         />
-        <button>search</button>
+        <button
+          type="submit"
+          onClick={() => { this.props.updateCity(this.state.searchText); }}
+        >
+          Search
+        </button>
       </React.Fragment>
     );
   }

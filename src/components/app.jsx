@@ -6,7 +6,7 @@ import SearchForm from './search-form';
 import '../styles/app.scss';
 import axios from 'axios';
 
-const url = 'https://mcr-codes-weather.herokuapp.com/forecast?city=Manchester ';
+const url = 'https://mcr-codes-weather.herokuapp.com/forecast?city=';
 
 class App extends React.Component {
   constructor(props) {
@@ -22,15 +22,15 @@ class App extends React.Component {
     this.handleForecastSelect = this.handleForecastSelect.bind(this);
   }
 
-  componentDidMount() {
-    axios.get(`${url}`)
+  getNewCity = city => {
+    axios.get(`${url}${city}`)
       .then(response => {
         this.setState({
           forecasts: response.data.forecasts,
           location: response.data.location,
         });
       });
-  }
+  };
 
   handleForecastSelect(date) {
     this.setState({
@@ -38,16 +38,24 @@ class App extends React.Component {
     });
   }
 
+  componentDidMount() {
+    this.getNewCity(this.state.location.city);
+  }
+
   render() {
     const selectedForecast =
       this.state.forecasts.find(forecast => forecast.date === this.state.selectedDate);
     return (
-      <React.Fragment>
+      <div className="forecast">
         <LocationDetails
           city={this.state.location.city}
           country={this.state.location.country}
         />
-        <SearchForm />
+        <SearchForm className="search-form"
+          updateCity={this.getNewCity}
+        />
+        <br />
+        <br />
         <ForecastSummaries
           forecasts={this.state.forecasts}
           onForecastSelect={this.handleForecastSelect}
@@ -55,7 +63,7 @@ class App extends React.Component {
         {
         selectedForecast && <ForecastDetails forecast={selectedForecast} />
         }
-      </React.Fragment>
+      </div>
     );
   }
 }
