@@ -51,7 +51,7 @@ class App extends React.Component {
           city={this.state.location.city}
           country={this.state.location.country}
         />
-        <SearchForm className="search-form"
+        <SearchForm
           updateCity={this.getNewCity}
         />
         <br />
