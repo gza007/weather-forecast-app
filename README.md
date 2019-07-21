@@ -1,33 +1,38 @@
-# React Bootstrap
-
-React boilerplate project for Manchester Codes' projects.
+# UK Weather Forecast App
 
 ## Getting Started
 
-### Clone down this repository (replace `<your_project_name>`:
-
-```bash
-git clone git@github.com:MCRcodes/react-bootstrap.git <your_project_name>
+```
+Clone down this repository
 ```
 
 ### Install dependencies
 
-```bash
+```
 npm install
 ```
 
 ### Start up the application:
 
-```bash
+```
 npm start
 ```
 
 ### Visit `localhost:8080` in your browser.
 
-You should see a **Hello World** message.
+You should see a functioning Weather App (UK ONLY)!
 
-### Change the rendered output
+### Built using
 
-You can change what is mounted to the DOM in `src/index.jsx`.
+* React.js
+* Axios
+* Manchester Codes Weaather API
+* SASS
 
-It might be a good idea to make an `App` component inside `App.jsx` (will likely handle your layout and routing), and to mount this to the DOM.
+### Component testing
+
+* Enzyme
+
+### Acknowledgements
+
+* Manchester Codes
